@@ -1,0 +1,40 @@
+{
+  "name": "aim-cloudflare-verifier",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild worker.ts --bundle --format=esm --platform=neutral --external:cloudflare:* --external:node:* --outfile=worker.mjs",
+    "test": "vitest run",
+    "types": "tsc --noEmit",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "0.3.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.22.0",
+    "@cloudflare/workers-types": "5.20261006.1",
+    "@types/node": "26.6.4",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11",
+    "wrangler": "4.147.0"
+  },
+  "overrides": {
+    "undici": "7.29.1",
+    "sharp": "0.35.5"
+  },
+  "cloudflare": {
+    "bindings": {
+      "SOURCE": {
+        "description": "Enter exactly the listed bucket name shown on your ai.market setup page."
+      },
+      "REGISTRATION_TOKEN": {
+        "description": "Paste the registration token from your ai.market setup page."
+      },
+      "RUN_NOW_SECRET": {
+        "description": "Paste the run-now secret your ai.market setup page generated; 43 characters."
+      }
+    }
+  }
+}

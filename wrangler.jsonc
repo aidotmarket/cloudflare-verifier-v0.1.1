@@ -1,0 +1,52 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aim-cloudflare-verifier",
+  "main": "worker.mjs",
+  "no_bundle": true,
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "containers": [
+    {
+      "class_name": "CloudflareVerifier",
+      "image": "./Dockerfile",
+      "instance_type": "standard-2",
+      "max_instances": 1,
+      "scheduling_policy": "default"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "VERIFIER",
+        "class_name": "CloudflareVerifier"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "CloudflareVerifier"
+      ]
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "SOURCE",
+      "bucket_name": "replace-with-existing-listing-bucket"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "* * * * *"
+    ]
+  },
+  "vars": {
+    "DEPLOYMENT_CONFIG": "{\"binary_sha256\":\"45b5bf95b784bf6cc572fe84f8faba77bb09682a3d5cb1f25cae6eb4e6a1c8a6\",\"jurisdiction\":\"default\",\"release_id\":\"cloudflare-verifier-v0.1.1\",\"scanner_version\":\"0.1.1\",\"worker_identity\":{\"mode\":\"bundle\",\"sha256\":\"69e62e36aee28c96521ca6e06d93b82532d3314db50a4ec09f18786d220b54d4\"}}"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
